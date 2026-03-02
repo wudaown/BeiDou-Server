@@ -689,6 +689,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
                 newEquip.setJump(equip.getJump());
                 newEquip.setFlag(equip.getFlag());
                 newEquip.setOwner(equip.getOwner());
+                newEquip.setLevel((byte) (equip.getLevel() + 1));
                 
                 gainEquip(newEquip);
                 return;
