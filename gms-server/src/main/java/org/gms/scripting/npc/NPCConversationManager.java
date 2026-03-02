@@ -639,6 +639,63 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         return 0;
     }
 
+    public int removeFirstInventoryEquipAndGetId() {
+        Inventory inv = getPlayer().getInventory(InventoryType.EQUIP);
+        for (short i = 1; i <= 100; i++) {
+            Item item = inv.getItem(i);
+            if (item != null && item instanceof Equip) {
+                int itemId = item.getItemId();
+                inv.removeItem(i);
+                return itemId;
+            }
+        }
+        return 0;
+    }
+
+    public int getFirstInventoryEquipItemId() {
+        Inventory inv = getPlayer().getInventory(InventoryType.EQUIP);
+        for (short i = 1; i <= 100; i++) {
+            Item item = inv.getItem(i);
+            if (item != null && item instanceof Equip) {
+                return item.getItemId();
+            }
+        }
+        return 0;
+    }
+
+    public void enhanceFirstInventoryEquip(int strBonus, int dexBonus, int intBonus, int lukBonus, int watkBonus, int matkBonus, int wdefBonus, int mdefBonus, int hpBonus, int mpBonus) {
+        Inventory inv = getPlayer().getInventory(InventoryType.EQUIP);
+        for (short i = 1; i <= 100; i++) {
+            Item item = inv.getItem(i);
+            if (item != null && item instanceof Equip) {
+                Equip equip = (Equip) item;
+                int itemId = equip.getItemId();
+                inv.removeItem(i);
+                
+                Equip newEquip = new Equip(itemId, (byte) 0, equip.getUpgradeSlots());
+                newEquip.setStr((short) (equip.getStr() + strBonus));
+                newEquip.setDex((short) (equip.getDex() + dexBonus));
+                newEquip.setInt((short) (equip.getInt() + intBonus));
+                newEquip.setLuk((short) (equip.getLuk() + lukBonus));
+                newEquip.setWatk((short) (equip.getWatk() + watkBonus));
+                newEquip.setMatk((short) (equip.getMatk() + matkBonus));
+                newEquip.setWdef((short) (equip.getWdef() + wdefBonus));
+                newEquip.setMdef((short) (equip.getMdef() + mdefBonus));
+                newEquip.setHp((short) (equip.getHp() + hpBonus));
+                newEquip.setMp((short) (equip.getMp() + mpBonus));
+                newEquip.setAcc(equip.getAcc());
+                newEquip.setAvoid(equip.getAvoid());
+                newEquip.setSpeed(equip.getSpeed());
+                newEquip.setJump(equip.getJump());
+                newEquip.setFlag(equip.getFlag());
+                newEquip.setOwner(equip.getOwner());
+                
+                gainEquip(newEquip);
+                return;
+            }
+        }
+    }
+
     public void giveCustomEquip(int itemId, int str, int dex, int int_, int luk, int watk, int matk, int wdef, int mdef, int hp, int mp, int acc, int avd, int speed, int jump, int slots) {
         Equip equip = new Equip(itemId, (byte) 0, (byte) slots);
         equip.setStr((short) str);

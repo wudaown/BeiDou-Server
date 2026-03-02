@@ -1,8 +1,8 @@
 /**
  * @description 装备强化脚本
  * 扣除1000个枫叶，1000万金币
- * 删除玩家背包装备栏第一个装备
- * 生成一个一样的装备，属性点+100，攻击+100，防御+100，生命/魔法+100
+ * 删除玩家背包(未装备)第一件装备
+ * 生成一个一样的装备，原有属性+100，攻击+100，防御+100，生命/魔法+100
  */
 
 const MAPLE_LEAF = 4001126;
@@ -25,7 +25,7 @@ function start() {
         return;
     }
     
-    let oldItemId = cm.removeFirstEquipAndGetId();
+    let oldItemId = cm.getFirstInventoryEquipItemId();
     if (oldItemId === 0) {
         cm.sendOk("背包装备栏没有装备");
         cm.dispose();
@@ -41,14 +41,11 @@ function start() {
     cm.gainItem(MAPLE_LEAF, -COST_MAPLE_LEAF);
     cm.gainMeso(-COST_MESO);
     
-    cm.giveCustomEquip(
-        oldItemId,
+    cm.enhanceFirstInventoryEquip(
         STAT_BONUS, STAT_BONUS, STAT_BONUS, STAT_BONUS,
         ATK_BONUS, ATK_BONUS,
         DEF_BONUS, DEF_BONUS,
-        HPMP_BONUS, HPMP_BONUS,
-        0, 0, 0, 0,
-        7
+        HPMP_BONUS, HPMP_BONUS
     );
     
     cm.sendOk("强化成功！\r\n\r\n原始装备ID: #i" + oldItemId + "##t" + oldItemId + "#\r\n强化属性: 力量+100 敏捷+100 智力+100 运气+100 物理攻击+100 魔法攻击+100 物理防御+100 魔法防御+100 HP+100 MP+100");
