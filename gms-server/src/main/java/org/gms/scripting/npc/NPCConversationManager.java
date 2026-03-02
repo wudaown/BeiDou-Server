@@ -1538,4 +1538,47 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         nextLevelContext.setLastLevel(noLevel);
         nextLevelContext.setNextLevel(yesLevel);
     }
+
+    public String getEnhanceInfo() {
+        int mapleLeaf = 4001126;
+        int costLeaf = 1000;
+        int costMeso = 10000000;
+        
+        String text = "#e#d装备强化系统#k#n\r\n\r\n";
+        text += "消耗物品:\r\n";
+        text += "  #i" + mapleLeaf + "##t" + mapleLeaf + "# x " + costLeaf + " 个\r\n";
+        text += "  金币 x " + costMeso + "\r\n\r\n";
+        
+        text += "强化效果:\r\n";
+        text += "  力量 +100\r\n";
+        text += "  敏捷 +100\r\n";
+        text += "  智力 +100\r\n";
+        text += "  运气 +100\r\n";
+        text += "  物理攻击 +100\r\n";
+        text += "  魔法攻击 +100\r\n";
+        text += "  物理防御 +100\r\n";
+        text += "  魔法防御 +100\r\n";
+        text += "  HP +100\r\n";
+        text += "  MP +100\r\n";
+        text += "  装备等级 +1\r\n\r\n";
+        
+        text += "#L0# #r开始强化#k#l\r\n";
+        
+        return text;
+    }
+
+    public String getEnhanceConfirm() {
+        int itemId = getFirstInventoryEquipItemId();
+        if (itemId == 0) {
+            return "背包装备栏没有装备";
+        }
+        
+        String text = "#e#d确认强化#k#n\r\n\r\n";
+        text += "即将强化以下装备:\r\n";
+        text += "  #i" + itemId + "##t" + itemId + "#\r\n\r\n";
+        text += "强化后装备属性将提升，装备等级+1\r\n";
+        text += "原有装备将被删除，是否确认？\r\n";
+        
+        return text;
+    }
 }

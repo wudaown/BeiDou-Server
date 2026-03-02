@@ -13,7 +13,33 @@ const ATK_BONUS = 100;
 const DEF_BONUS = 100;
 const HPMP_BONUS = 100;
 
+var status = 0;
+
 function start() {
+    status = 0;
+    cm.sendSimple(cm.getEnhanceInfo());
+}
+
+function action(mode, type, selection) {
+    if (mode < 1) {
+        cm.dispose();
+        return;
+    }
+    
+    status++;
+    
+    if (status === 1) {
+        if (selection === 0) {
+            // 确认强化
+            cm.sendYesNo(cm.getEnhanceConfirm());
+        }
+    } else if (status === 2) {
+        // 执行强化
+        doEnhance();
+    }
+}
+
+function doEnhance() {
     if (cm.getItemQuantity(MAPLE_LEAF) < COST_MAPLE_LEAF) {
         cm.sendOk("枫叶不足，需要 " + COST_MAPLE_LEAF + " 个枫叶");
         cm.dispose();
