@@ -25,9 +25,12 @@ import lombok.Getter;
 import org.gms.client.Character;
 import org.gms.client.*;
 import org.gms.client.inventory.Equip;
+import org.gms.client.inventory.Inventory;
+import org.gms.client.inventory.InventoryType;
 import org.gms.client.inventory.Item;
 import org.gms.client.inventory.ItemFactory;
 import org.gms.client.inventory.Pet;
+import org.gms.constants.inventory.ItemConstants;
 import org.gms.config.GameConfig;
 import org.gms.constants.game.GameConstants;
 import org.gms.constants.game.NextLevelType;
@@ -621,6 +624,19 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public Object[] getNamesWhoDropsItem(Integer itemId) {
         return ItemInformationProvider.getInstance().getWhoDrops(itemId).toArray();
+    }
+
+    public int removeFirstEquipAndGetId() {
+        Inventory equipInv = getPlayer().getInventory(InventoryType.EQUIPPED);
+        for (short i = -1; i > -100; i--) {
+            Item item = equipInv.getItem(i);
+            if (item != null) {
+                int itemId = item.getItemId();
+                equipInv.removeItem(i);
+                return itemId;
+            }
+        }
+        return 0;
     }
 
     public void giveCustomEquip(int itemId, int str, int dex, int int_, int luk, int watk, int matk, int wdef, int mdef, int hp, int mp, int acc, int avd, int speed, int jump, int slots) {
