@@ -24,6 +24,7 @@ package org.gms.scripting.npc;
 import lombok.Getter;
 import org.gms.client.Character;
 import org.gms.client.*;
+import org.gms.client.inventory.Equip;
 import org.gms.client.inventory.Item;
 import org.gms.client.inventory.ItemFactory;
 import org.gms.client.inventory.Pet;
@@ -620,6 +621,25 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public Object[] getNamesWhoDropsItem(Integer itemId) {
         return ItemInformationProvider.getInstance().getWhoDrops(itemId).toArray();
+    }
+
+    public void giveCustomEquip(int itemId, int str, int dex, int int_, int luk, int watk, int matk, int wdef, int mdef, int hp, int mp, int acc, int avd, int speed, int jump, int slots) {
+        Equip equip = new Equip(itemId, (byte) 0, (byte) slots);
+        equip.setStr((short) str);
+        equip.setDex((short) dex);
+        equip.setInt((short) int_);
+        equip.setLuk((short) luk);
+        equip.setWatk((short) watk);
+        equip.setMatk((short) matk);
+        equip.setWdef((short) wdef);
+        equip.setMdef((short) mdef);
+        equip.setHp((short) hp);
+        equip.setMp((short) mp);
+        equip.setAcc((short) acc);
+        equip.setAvoid((short) avd);
+        equip.setSpeed((short) speed);
+        equip.setJump((short) jump);
+        gainEquip(equip);
     }
 
     public String getSkillBookInfo(int itemid) {
